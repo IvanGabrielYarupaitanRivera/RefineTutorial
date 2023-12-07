@@ -1,14 +1,15 @@
-import { GitHubBanner, Refine, WelcomePage } from "@refinedev/core";
-import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
-import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
+import { GitHubBanner, Refine, WelcomePage } from '@refinedev/core'
+import { DevtoolsPanel, DevtoolsProvider } from '@refinedev/devtools'
+import { RefineKbar, RefineKbarProvider } from '@refinedev/kbar'
 
 import routerBindings, {
   DocumentTitleHandler,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
-import dataProvider from "@refinedev/simple-rest";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
+} from '@refinedev/react-router-v6'
+import dataProvider from '@refinedev/simple-rest'
+import { HeadlessInferencer } from '@refinedev/inferencer/headless'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import './App.css'
 
 function App() {
   return (
@@ -18,16 +19,44 @@ function App() {
         <DevtoolsProvider>
           <Refine
             routerProvider={routerBindings}
-            dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+            dataProvider={dataProvider('https://api.fake-rest.refine.dev')}
+            resources={[
+              {
+                name: 'blog_posts',
+                list: '/blog-posts',
+                show: '/blog-posts/show/:id',
+                create: '/blog-posts/create',
+                edit: '/blog-posts/edit/:id',
+              },
+              {
+                name: 'users',
+                list: '/users',
+                show: '/users/show/:id',
+                create: '/users/create',
+                edit: '/users/edit/:id',
+              },
+            ]}
             options={{
               syncWithLocation: true,
               warnWhenUnsavedChanges: true,
               useNewQueryKeys: true,
-              projectId: "67sxUs-Ms3CXO-vlp6dV",
+              projectId: '67sxUs-Ms3CXO-vlp6dV',
             }}
           >
             <Routes>
               <Route index element={<WelcomePage />} />
+              <Route path='blog-posts'>
+                <Route index element={<HeadlessInferencer />} />
+                <Route path='show/:id' element={<HeadlessInferencer />} />
+                <Route path='edit/:id' element={<HeadlessInferencer />} />
+                <Route path='create' element={<HeadlessInferencer />} />
+              </Route>
+              <Route path='users'>
+                <Route index element={<HeadlessInferencer />} />
+                <Route path='show/:id' element={<HeadlessInferencer />} />
+                <Route path='edit/:id' element={<HeadlessInferencer />} />
+                <Route path='create' element={<HeadlessInferencer />} />
+              </Route>
             </Routes>
             <RefineKbar />
             <UnsavedChangesNotifier />
@@ -37,7 +66,7 @@ function App() {
         </DevtoolsProvider>
       </RefineKbarProvider>
     </BrowserRouter>
-  );
+  )
 }
 
-export default App;
+export default App

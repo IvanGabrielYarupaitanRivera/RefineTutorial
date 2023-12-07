@@ -1,18 +1,18 @@
-import { useMenu } from "@refinedev/core";
-import { NavLink } from "react-router-dom";
+import { useMenu } from '@refinedev/core'
+import { NavLink } from 'react-router-dom'
 
 export const Menu = () => {
-  const { menuItems } = useMenu();
+  const { menuItems } = useMenu()
 
   return (
-    <nav className="menu">
+    <nav className='menu'>
       <ul>
         {menuItems.map((item) => (
           <li key={item.key}>
-            <NavLink to={item.route ?? "/"}>{item.label}</NavLink>
+            <NavLink to={item.route ?? '/'}>{item.label}</NavLink>
           </li>
         ))}
       </ul>
     </nav>
-  );
-};
+  )
+}
